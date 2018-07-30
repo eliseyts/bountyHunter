@@ -1,6 +1,6 @@
 package com.company.back;
 
-import com.company.back.Map;
+import java.sql.BatchUpdateException;
 
 public class turnProcessor {
     private Integer p1tX, p1tY, p2tX, p2tY;
@@ -28,19 +28,36 @@ public class turnProcessor {
 
     public boolean processor(Map map) {
         bufferMap = map;
+        boolean succes = false;
 
         //if some shit do move
-        if ((p1tX != null) && p1tY != null && bufferMap.players.get(0).moveToCoord(p1tX, p1tY))
-            return true;
+        if (whoseTurn == 0 && (p1tX != null) && p1tY != null)
+            if (bufferMap.players.get(0).moveToCoord(p1tX, p1tY)) succes = true;
 
-        if ((p2tX != null) && p2tY != null && bufferMap.players.get(1).moveToCoord(p2tX, p2tY))
-            return true;
+        if (whoseTurn == 1 && (p2tX != null) && p2tY != null){
+            if (bufferMap.players.get(1).moveToCoord(p2tX, p2tY)) {
+                succes = true;
+            }
+        }
+
 
         p1tX = null;
         p1tY = null;
         p2tX = null;
         p2tY = null;
-        changeTurn();
+
+
+        if (succes) {
+            map.showHiddenCells(bufferMap.players.get(whoseTurn).getXCoord(),bufferMap.players.get(whoseTurn).getYCoord(),
+                    bufferMap.players.get(whoseTurn).visionRange);
+
+            changeTurn();
+
+            map.setMovableCoords(bufferMap.players.get(whoseTurn).getXCoord(),bufferMap.players.get(whoseTurn).getYCoord(),
+                    bufferMap.players.get(whoseTurn).visionRange);
+            return true;
+
+        }
         return false;
     }
 

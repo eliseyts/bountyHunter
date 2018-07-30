@@ -1,16 +1,9 @@
 package com.company.back;
 
-import org.jetbrains.annotations.Contract;
-
-import java.lang.reflect.Array;
-import java.util.LinkedList;
-import java.util.List;
-
 public class cell {
     public enum Type {
-        Earth, Water, Strone
+        Earth, Water, Stone
     }
-
     public enum Treasure {
         None, Bounty, Speed, Bullet
     }
@@ -23,6 +16,7 @@ public class cell {
      * бонусы ничего0 сокровище1 скорость2 пуля 3
      */
     private boolean isHidden = false;
+    private boolean isMovableByHero =false;
     private Type cellType = Type.Water;
     private Treasure cellTreasure = Treasure.None;
 
@@ -34,13 +28,12 @@ public class cell {
                 return 0;
             case Earth:
                 return 1;
-            case Strone:
+            case Stone:
                 return 2;
             default:
                 return 0;
         }
     }
-
     private int treasureToInt() {
         switch (cellTreasure) {
             case None:
@@ -55,7 +48,6 @@ public class cell {
                 return 0;
         }
     }
-
     public int[] getSimpleInfo() {
         int[] ret = new int[2];
         ret[0] = typeToInt();
@@ -63,6 +55,27 @@ public class cell {
         return ret;
     }
 
+
+    //auto setters for generator
+    void setHidden(boolean hidden) {
+        isHidden = hidden;
+    }
+
+    public boolean isMovableByHero() {
+        return isMovableByHero;
+    }
+    public void setMovableByHero(boolean movableByHero) {
+        isMovableByHero = movableByHero;
+    }
+    void setCellType(Type cellType) {
+        this.cellType = cellType;
+    }
+    void setCellTreasure(Treasure cellTreasure) {
+        this.cellTreasure = cellTreasure;
+    }
+    public boolean isHidden() {
+        return isHidden;
+    }
     @Override
     public String toString() {
         return "cell{" +
@@ -70,23 +83,6 @@ public class cell {
                 ", cellType=" + cellType +
                 ", cellTreasure=" + cellTreasure +
                 '}';
-    }
-
-    //auto setters for generator
-    void setHidden(boolean hidden) {
-        isHidden = hidden;
-    }
-
-    public void setCellType(Type cellType) {
-        this.cellType = cellType;
-    }
-
-    void setCellTreasure(Treasure cellTreasure) {
-        this.cellTreasure = cellTreasure;
-    }
-
-    boolean isHidden() {
-        return isHidden;
     }
 
 

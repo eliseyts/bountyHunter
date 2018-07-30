@@ -1,51 +1,71 @@
 package com.company.Paint;
 
 import com.company.back.Map;
+import com.company.back.cell;
 import com.company.back.turnProcessor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class GameGUI extends JComponent {
     /* Начальные координаты для отрисовки клеток карты */
-    private final int xCoordBegin = 50;
-    private final int yCoordBegin = 100;
+    public final int xCoordBegin = 50;
+    public final int yCoordBegin = 100;
+    private final int repTime = 70;
+    boolean indexNBEnter = false;
 
     /* Создание изображений */
-    BufferedImage earthCell = null;
-    BufferedImage waterCell = null;
-    BufferedImage stoneCell = null;
-    BufferedImage nextButton = null;
-    BufferedImage frameImage = null;
-    BufferedImage infoButton = null;
-    BufferedImage newGameButton = null;
-    BufferedImage loadButton = null;
-    BufferedImage saveButton = null;
-    BufferedImage player1Image = null;
-    BufferedImage player2Image = null;
-    BufferedImage pers1Image = null;
-    BufferedImage pers2Image = null;
+    private BufferedImage earthCell = null;
+    private BufferedImage waterCell = null;
+    private BufferedImage stoneCell = null;
+    private BufferedImage fogCell = null;
+    private BufferedImage nextButton = null;
+    private BufferedImage frameImage = null;
+    private BufferedImage infoButton = null;
+    private BufferedImage newGameButton = null;
+    private BufferedImage loadButton = null;
+    private BufferedImage saveButton = null;
+    private BufferedImage player1Image = null;
+    private BufferedImage player2Image = null;
+    private BufferedImage pers1Image = null;
+    private BufferedImage pers2Image = null;
+    private BufferedImage nextButtonActive = null;
+    private BufferedImage border = null;
+
+    private Timer repaintTimer = null;
+
 
 
     Map testMap = new Map();
     turnProcessor process = new turnProcessor();
 
-    public Color mapFilling = new Color(0, 215, 255);
+    private Color mapFilling = new Color(0, 215, 255);
 
-    int[] arrX1 = {60, 60};
-    int[] arrY1 = {100, 60};
-    int xCoord = 50;
-    int yCoord = 100;
+    private int xCoord = 50;
+    private int yCoord = 100;
 
     GameGUI() {
-
+        setTimers();
     }
 
+    /* Установка таймера */
+    private void setTimers() {
+        repaintTimer = new Timer(repTime, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        repaintTimer.start();
+    }
+
+    /* Подключение изображений */
     private void setImages() {
         try {
             earthCell = ImageIO.read(new File("images/earth.png"));
@@ -67,6 +87,11 @@ public class GameGUI extends JComponent {
             e.printStackTrace();
         }
 
+        try {
+            fogCell = ImageIO.read(new File("images/fog.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             nextButton = ImageIO.read(new File("images/nextTurnButton.png"));
@@ -127,16 +152,37 @@ public class GameGUI extends JComponent {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            nextButtonActive = ImageIO.read(new File("images/nextTurnButtonActive.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            border = ImageIO.read(new File("images/border.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* Отрисовка кнопки NEXT TURN */
+    private void drawnextTurnButton(Graphics g){
+        if(indexNBEnter==true) g.drawImage(nextButtonActive, 400, 615, 300, 100, null);
+        else {
+            g.drawImage(nextButton, 400, 615, 300, 100, null);
+        }
     }
 
     /* Отрисовка элементов интерфейса */
     private void drawGUI(Graphics g) {
 
-        //заливка карты
+        /* Зарисовка интерфейса */
         g.setColor(mapFilling);
         g.fillRect(50, 100, 1000, 500);
 
-        g.drawImage(nextButton, 400, 615, 300, 100, null);
+        drawnextTurnButton(g);
+
         g.drawImage(frameImage, 35, 85, 1030, 530, null);
 
         g.drawImage(infoButton, 50, 25, 50, 48, null);
@@ -147,17 +193,39 @@ public class GameGUI extends JComponent {
 
     }
 
-    /* Отрисовка клеток карты */
+    /*   Отрисовка клеток карты
+     *   Сначала проверяется, открыта ли клетка (если скрыта - рисуется туман
+     *   Затем, если открыта, отрисовывается текстура клетки, соответствующая её типу
+     */
+
+    /* Отрисовка клеток */
     private void drawCells(Graphics g) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
+                cell localCell=testMap.getCell(i, j);
 
-                if (testMap.getCell(i, j).getSimpleInfo()[0] == 0) {
-                    g.drawImage(waterCell, xCoord, yCoord, 50, 50, null);
+                if (localCell.isHidden()) {
+                    g.drawImage(fogCell, xCoord, yCoord, 50, 50, null);
                 }
-                if (testMap.getCell(i, j).getSimpleInfo()[0] == 1) {
-                    g.drawImage(earthCell, xCoord, yCoord, 50, 50, null);
+                else {
+                    if (localCell.getSimpleInfo()[0] == 0) {
+                        g.drawImage(waterCell, xCoord, yCoord, 50, 50, null);
+                    }
+                    else {
+                        if (localCell.getSimpleInfo()[0] == 1) {
+                            g.drawImage(earthCell, xCoord, yCoord, 50, 50, null);
+                        }
+                        else {
+                            if (localCell.getSimpleInfo()[0] == 2) {
+                                g.drawImage(stoneCell, xCoord, yCoord, 50, 50, null);
+
+                            }
+                        }
+                    }
                 }
+
+
+                if(localCell.isMovableByHero()) g.drawImage(border, xCoord, yCoord, 50, 50, null);
                 xCoord = xCoord + 50;
             }
             xCoord = 50;
@@ -191,7 +259,6 @@ public class GameGUI extends JComponent {
         drawGUI(g);
         drawCells(g);
         drawPlayers(g);
-
 
     }
 

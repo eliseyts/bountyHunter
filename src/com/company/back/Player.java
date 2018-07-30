@@ -4,10 +4,11 @@ public class Player {
     /**
      * координаты игрока,его движение
      */
+    int visionRange=2;
     private int xCoord = 0, yCoord = 0;
     private final int defaultMoveRange = 2;
     private final int shoootRadius = 1;
-    private int moveRange = 2;
+    private int moveRange = 4;
     private int health = 2;
     private boolean hasKey = false;
 
@@ -55,7 +56,6 @@ public class Player {
         moveRange = defaultMoveRange;
     }
 
-    //set move
     boolean move(int dx, int dy) {
         if ((Math.abs(dx) + Math.abs(dy) <= moveRange)
                 && (xCoord + dx > 0) && (xCoord + dx < Map.X)

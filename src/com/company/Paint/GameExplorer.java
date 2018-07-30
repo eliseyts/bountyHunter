@@ -12,6 +12,8 @@ public class GameExplorer extends JFrame {
     public JPanel mainPanel;
     public static Color backgroundColor = new Color(21, 27, 48);
 
+
+
     public GameExplorer() {
         super("Night Hunter");
         setBounds(200, 100, 1100, 750);
@@ -29,13 +31,24 @@ public class GameExplorer extends JFrame {
         setContentPane(mainPanel);
         setVisible(true);
 
-        repaint();
     }
 
     public class MouseHandler implements MouseListener, MouseMotionListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            //борьба с излишними координатами окна
+            int X = e.getX() - 3;
+            int Y = e.getY() - 30;
+            //cast to int
+            int cellNumberX = (X - gameGUI.xCoordBegin) / 50;
+            int cellNumberY = (Y - gameGUI.yCoordBegin) / 50;
+            gameGUI.process.getPlayerCoords(cellNumberX, cellNumberY);
+            if (gameGUI.process.processor(gameGUI.testMap)) {
+                System.out.println("player moved");
+            }
+
+
 
         }
 
@@ -51,7 +64,6 @@ public class GameExplorer extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-
         }
 
         @Override
@@ -66,6 +78,16 @@ public class GameExplorer extends JFrame {
 
         @Override
         public void mouseMoved(MouseEvent e) {
+            int X = e.getX() - 3;
+            int Y = e.getY() - 30;
+
+            if(!((X>400)&&(X<700)&&(Y>615)&&(Y<715)) && !gameGUI.indexNBEnter)return;
+            if(!((X>400)&&(X<700)&&(Y>615)&&(Y<715))) {
+                gameGUI.indexNBEnter =false;
+                return;
+            }
+            if((X>400)&&(X<700)&&(Y>615)&&(Y<715)) gameGUI.indexNBEnter = true;
+
         }
     }
 
