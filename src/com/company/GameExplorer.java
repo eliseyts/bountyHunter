@@ -10,7 +10,7 @@ public class GameExplorer extends JFrame {
 
     public GameGUI gameGUI = new GameGUI();
     public JPanel mainPanel;
-    public static Color backgroundColor = new Color(12, 17, 29);
+    public static Color backgroundColor = new Color(21, 27, 48);
 
     GameExplorer() {
         super("Night Hunter");

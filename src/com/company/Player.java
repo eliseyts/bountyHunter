@@ -11,6 +11,10 @@ public class Player {
     private int health = 2;
     private boolean hasKey = false;
 
+    public Player(int xCoord, int yCoord) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
 
     public boolean isHasKey() {
         return hasKey;
@@ -35,29 +39,40 @@ public class Player {
         return (health > 0);
     }
 
-    public void moveToCoord(int x1, int y1) {
+    boolean moveToCoord(int x1, int y1) {
         if ((Math.abs(xCoord - x1) + Math.abs(yCoord - y1) <= moveRange)
                 && (x1 >= 0) && (x1 < Map.X)
                 && (y1 >= 0) && (y1 < Map.Y)) {
             xCoord = x1;
             yCoord = y1;
+            moveRange -= Math.abs(xCoord - x1) + Math.abs(yCoord - y1);
+            return true;
         }
+        return false;
     }
 
-    public void move(int dx, int dy) {
+    public void setMoveRangeToDefault() {
+        moveRange = defaultMoveRange;
+    }
+
+    //set move
+    boolean move(int dx, int dy) {
         if ((Math.abs(dx) + Math.abs(dy) <= moveRange)
                 && (xCoord + dx > 0) && (xCoord + dx < Map.X)
                 && (yCoord + dy > 0) && (yCoord + dy < Map.Y)) {
             xCoord += dx;
             yCoord += dy;
+            moveRange -= (Math.abs(dx) + Math.abs(dy));
+            return true;
         }
+        return false;
     }
 
-    public int getxCoord() {
+    public int getXCoord() {
         return xCoord;
     }
 
-    public int getyCoord() {
+    public int getYCoord() {
         return yCoord;
     }
 }

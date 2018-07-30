@@ -1,0 +1,7 @@
+MAP
+get cell:testMap.getCell(i, j).getSimpleInfo() -getting info to cell to paint
+get player:testMap.players.get(0).getXCoord()
+
+
+Mouse
+mouse listener-use "turnProcessor" to do turn

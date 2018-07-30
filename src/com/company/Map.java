@@ -1,26 +1,20 @@
 package com.company;
 
 import java.util.ArrayList;
-
 //карта,реалитзует действия с клетками и перемещения игрков
 public class Map {
     public static int Y = 10;
     public static int X = 20;
     private cell[][] map = new cell[Y][X];
     ArrayList<Player> players = new ArrayList<>();
-//    turnProcesdor proc=new turnProcesdor();
+//    turnProcessor proc=new turnProcessor();
 
     /**
      * конструктор определяет тип мира
      */
     Map() {
         testMapGenerate();
-    }
-
-    Map(int y, int x) {
-        Y = y;
-        X = x;
-        testMapGenerate();
+        set2Players();
     }
 
     cell[][] getMap() {
@@ -29,6 +23,11 @@ public class Map {
 
     cell getCell(int x, int y) {
         return map[x][y];
+    }
+
+    private void set2Players() {
+        players.add(new Player(0, 0));
+        players.add(new Player(19, 9));
     }
 
     private void allWaterMapGenerate() {
