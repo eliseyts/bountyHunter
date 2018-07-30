@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Paint.GameExplorer;
 /**
  * Created by eliseyts on 29.07.2018.
  */

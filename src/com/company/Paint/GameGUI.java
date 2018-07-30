@@ -1,15 +1,15 @@
-package com.company;
+package com.company.Paint;
+
+import com.company.back.Map;
+import com.company.back.turnProcessor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 public class GameGUI extends JComponent {
     /* Начальные координаты для отрисовки клеток карты */

@@ -1,4 +1,6 @@
-package com.company;
+package com.company.back;
+
+import com.company.back.Map;
 
 public class turnProcessor {
     private Integer p1tX, p1tY, p2tX, p2tY;

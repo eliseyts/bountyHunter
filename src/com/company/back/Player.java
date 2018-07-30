@@ -1,4 +1,4 @@
-package com.company;
+package com.company.back;
 
 public class Player {
     /**
@@ -39,7 +39,7 @@ public class Player {
         return (health > 0);
     }
 
-    boolean moveToCoord(int x1, int y1) {
+    public boolean moveToCoord(int x1, int y1) {
         if ((Math.abs(xCoord - x1) + Math.abs(yCoord - y1) <= moveRange)
                 && (x1 >= 0) && (x1 < Map.X)
                 && (y1 >= 0) && (y1 < Map.Y)) {

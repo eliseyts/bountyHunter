@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Paint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ public class GameExplorer extends JFrame {
     public JPanel mainPanel;
     public static Color backgroundColor = new Color(21, 27, 48);
 
-    GameExplorer() {
+    public GameExplorer() {
         super("Night Hunter");
         setBounds(200, 100, 1100, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

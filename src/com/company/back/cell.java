@@ -1,4 +1,4 @@
-package com.company;
+package com.company.back;
 
 import org.jetbrains.annotations.Contract;
 
@@ -77,7 +77,7 @@ public class cell {
         isHidden = hidden;
     }
 
-    void setCellType(Type cellType) {
+    public void setCellType(Type cellType) {
         this.cellType = cellType;
     }
 

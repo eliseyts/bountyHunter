@@ -1,4 +1,4 @@
-package com.company;
+package com.company.back;
 
 import java.util.ArrayList;
 //карта,реалитзует действия с клетками и перемещения игрков
@@ -6,13 +6,13 @@ public class Map {
     public static int Y = 10;
     public static int X = 20;
     private cell[][] map = new cell[Y][X];
-    ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<Player> players = new ArrayList<>();
 //    turnProcessor proc=new turnProcessor();
 
     /**
      * конструктор определяет тип мира
      */
-    Map() {
+    public Map() {
         testMapGenerate();
         set2Players();
     }
@@ -21,7 +21,7 @@ public class Map {
         return map;
     }
 
-    cell getCell(int x, int y) {
+    public cell getCell(int x, int y) {
         return map[x][y];
     }
 
